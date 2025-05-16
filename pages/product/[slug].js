@@ -5,7 +5,7 @@ import {
   AiFillStar,
   AiOutlineStar,
 } from "react-icons/ai";
-import { client, urlFor } from "../../lib/client";
+import { client, urlFor } from "../../sanity/lib/client.js";
 import { Product, QuickView } from "../../components";
 import { useStateContext } from "../../context/StateContext";
 import Link from "next/link";

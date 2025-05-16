@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { client } from "../lib/client";
+import { client } from "../sanity/lib/client";
 import Product from "../components/Product";
 import QuickView from "../components/QuickView";
 import Slider from "rc-slider";
