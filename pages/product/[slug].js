@@ -100,18 +100,23 @@ const ProductDetails = ({ product, products }) => {
           </div>
         </div>
       </div>
-      <div className="mb-6">
+      <p className="price">
         {discount ? (
-          <div className="flex items-center gap-2">
-            <span className="text-gray-500 line-through">{price}DT</span>
-            <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-sm">
-              -{discount}%
+          <>
+            <span
+              className="original-price"
+              style={{ textDecoration: "line-through" }}
+            >
+              {price}DT
             </span>
-          </div>
+            <span className="discounted-price">
+              /{Number(discountedPrice)}DT
+            </span>
+          </>
         ) : (
-          <span className="text-2xl font-bold text-gray-800">{price}DT</span>
+          `${price}DT`
         )}
-      </div>
+      </p>
       {/* Top Section - Image and Form Side by Side */}
       <div className="flex flex-col lg:flex-row gap-8 mb-8">
         {/* Product Image */}
@@ -322,7 +327,9 @@ const ProductDetails = ({ product, products }) => {
         <QuickView product={quickViewProduct} onClose={closeQuickView} />
       )}
       <div className="maylike-products-wrapper">
-           <h2 className="text-[#cb6ce6] text-2xl md:text-3xl font-bold mb-6">Autres Articles</h2>
+        <h2 className="text-[#cb6ce6] text-2xl md:text-3xl font-bold mb-6">
+          Autres Articles
+        </h2>
 
         <div className="marquee">
           <div className="maylike-products-container track">

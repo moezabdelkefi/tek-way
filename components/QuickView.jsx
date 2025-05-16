@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { urlFor } from "@/sanity/lib/image";
-import styled from "styled-components";
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useStateContext } from "@/context/StateContext";
 
 const QuickView = ({ product, onClose }) => {
@@ -19,7 +17,9 @@ const QuickView = ({ product, onClose }) => {
   const handleBuyNow = () => {
     onAdd(product, qty);
     setShowCart(true);
+    handleClose();
   };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -44,355 +44,175 @@ const QuickView = ({ product, onClose }) => {
   };
 
   const truncateDescription = (description, wordLimit) => {
+    if (!description) return "";
     const words = description.split(" ");
-    if (words.length > wordLimit) {
-      return words.slice(0, wordLimit).join(" ") + "...";
-    }
-    return description;
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + "..."
+      : description;
   };
 
   return (
-    <Overlay isVisible={isVisible}>
-      <Container ref={containerRef} isVisible={isVisible}>
-        <CloseButton onClick={handleClose}>
-          <AiOutlineClose />
-        </CloseButton>
-        <Content>
-          <ImageSection>
-            <BigImageContainer>
-              <BigImage
-                src={urlFor(product.image && product.image[index])}
-                alt={product.name}
-              />
-            </BigImageContainer>
-            <SmallImagesContainer>
-              {product.image?.map((item, i) => (
-                <SmallImage
-                  key={i}
-                  src={urlFor(item)}
-                  className={i === index ? "selected" : ""}
-                  onMouseEnter={() => setIndex(i)}
+    <div
+      className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ${
+        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+    >
+      <div
+        ref={containerRef}
+        className={`bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative transition-transform duration-300 ${
+          isVisible ? "scale-100" : "scale-95"
+        }`}
+      >
+        {/* Close Button */}
+        <button
+          onClick={handleClose}
+          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white shadow-md hover:bg-gray-100 transition-colors"
+          aria-label="Close quick view"
+        >
+          <AiOutlineClose className="text-gray-600 text-lg" />
+        </button>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+          {/* Image Gallery */}
+          <div className="space-y-4">
+            {/* Main Image */}
+            <div className="relative aspect-square w-full bg-gray-50 rounded-lg overflow-hidden">
+              {product.image?.[index] && (
+                <img
+                  src={urlFor(product.image[index])}
+                  alt={product.name}
+                  className="w-full h-full object-contain"
                 />
-              ))}
-            </SmallImagesContainer>
-          </ImageSection>
-          <Details>
-            <Title>{product.name}</Title>
-            <Description>
-              {truncateDescription(product.details, 35)}
-            </Description>{" "}
-            <hr />
-            <Price>
-              {product.discount ? (
-                <>
-                  <span
-                    className="original-price"
-                    style={{ textDecoration: "line-through" }}
+              )}
+            </div>
+
+            {/* Thumbnail Gallery */}
+            {product.image?.length > 1 && (
+              <div className="grid grid-cols-4 gap-2">
+                {product.image.map((item, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setIndex(i)}
+                    className={`relative aspect-square rounded-md overflow-hidden border-2 transition-all ${
+                      i === index
+                        ? "border-purple-500 ring-2 ring-purple-200"
+                        : "border-transparent hover:border-gray-300"
+                    }`}
                   >
+                    <img
+                      src={urlFor(item)}
+                      alt={`Thumbnail ${i + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Product Details */}
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold text-gray-900">{product.name}</h2>
+
+            {product.details && (
+              <p className="text-gray-600">
+                {truncateDescription(product.details, 35)}
+              </p>
+            )}
+
+            <div className="border-t border-b border-gray-200 py-4">
+              {/* Price Display */}
+              <div className="flex items-center gap-3">
+                {product.discount ? (
+                  <>
+                    <span className="text-2xl font-bold text-purple-600">
+                      {(
+                        product.price -
+                        (product.price * product.discount) / 100
+                      ).toFixed(2)}
+                      DT
+                    </span>
+                    <span className="text-lg text-gray-400 line-through">
+                      {product.price}DT
+                    </span>
+                    <span className="ml-2 px-2 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded">
+                      -{product.discount}%
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-2xl font-bold text-gray-900">
                     {product.price}DT
                   </span>
-                  <span className="discounted-price">
-                    /
-                    {(
-                      product.price -
-                      (product.price * product.discount) / 100
-                    ).toFixed(2)}
-                    DT
+                )}
+              </div>
+
+              {/* Category */}
+              {product.category && (
+                <div className="mt-2">
+                  <span className="inline-block px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                    {product.category}
                   </span>
-                </>
-              ) : (
-                `${product.price}DT`
+                </div>
               )}
-            </Price>
-            <div className="category">
-              <p>{product.category}</p>
             </div>
-            <div className="quantity">
-              <p className="quantity-desc">
-                <span className="minus" onClick={decQty}>
+
+            {/* Quantity Selector */}
+            <div className="flex items-center space-x-4">
+              <p className="text-sm font-medium text-gray-700">Quantité:</p>
+              <div className="flex items-center border border-gray-300 rounded-lg">
+                <button
+                  onClick={decQty}
+                  className="p-2 text-gray-600 hover:bg-gray-100 transition-colors"
+                  aria-label="Decrease quantity"
+                >
                   <AiOutlineMinus />
-                </span>
-                <span className="num">{qty}</span>
-                <span className="plus" onClick={incQty}>
+                </button>
+                <span className="px-4 py-2 text-gray-900">{qty}</span>
+                <button
+                  onClick={incQty}
+                  className="p-2 text-gray-600 hover:bg-gray-100 transition-colors"
+                  aria-label="Increase quantity"
+                >
                   <AiOutlinePlus />
-                </span>
-              </p>
+                </button>
+              </div>
             </div>
-            <div className="buttons">
+
+            {/* Action Buttons */}
+            <div className="grid grid-cols-1 gap-3 pt-2">
               <button
-                type="button"
-                className="add-to-cart"
                 onClick={() => onAdd(product, qty)}
+                className="w-full py-3 px-6 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors duration-300"
               >
                 Ajouter Au Panier
               </button>
+              <button
+                onClick={handleBuyNow}
+                className="w-full py-3 px-6 bg-white border border-purple-600 text-purple-600 hover:bg-purple-50 font-medium rounded-lg transition-colors duration-300"
+              >
+                Acheter Maintenant
+              </button>
             </div>
-            <Features>
-              {product.features?.map((feature, index) => (
-                <li key={index}>{feature}</li>
-              ))}
-            </Features>
-          </Details>
-        </Content>
-      </Container>
-      <style jsx>{`
-        .quantity {
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          margin-top: 10px;
-        }
-        .quantity-desc {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          padding: 5px;
-          width: 100px; /* Adjust the width as needed */
-        }
-        .quantity-desc .minus,
-        .quantity-desc .plus {
-          cursor: pointer;
-          padding: 0 10px;
-        }
-        .quantity-desc .num {
-          padding: 0 10px;
-          font-size: 1em;
-        }
-      `}</style>
-    </Overlay>
+
+            {/* Product Features */}
+            {product.features?.length > 0 && (
+              <div className="pt-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Caractéristiques
+                </h3>
+                <ul className="space-y-2 pl-5 list-disc text-gray-600">
+                  {product.features.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
 export default QuickView;
-
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  overflow-y: auto;
-  padding: 20px;
-  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
-  transition: opacity 0.3s ease;
-`;
-
-const Container = styled.div`
-  background: white;
-  padding: 20px 10px 10px 10px; /* Added top padding */
-  border-radius: 10px;
-  width: 80%;
-  max-width: 600px;
-  position: relative;
-  max-height: 80%;
-  overflow-y: auto;
-  transform: ${({ isVisible }) => (isVisible ? "scale(1)" : "scale(0.9)")};
-  transition: transform 0.3s ease;
-
-  @media (max-width: 768px) {
-    width: 90%;
-    padding: 30px 20px 20px 20px; /* Adjusted top padding */
-  }
-
-  @media (max-width: 480px) {
-    width: 95%;
-    padding: 25px 20px 20px 20px; /* Adjusted top padding */
-  }
-`;
-
-const CloseButton = styled.button`
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background: white;
-  border: none;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 5px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-
-  svg {
-    display: block;
-  }
-`;
-
-const Content = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const ImageSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const BigImageContainer = styled.div`
-  width: 100%;
-  padding-top: 100%; /* Aspect ratio 4:3 */
-  position: relative;
-
-  @media (max-width: 480px) {
-    padding-top: 100%;
-  }
-`;
-
-const BigImage = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 10px;
-`;
-
-const SmallImagesContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 5px;
-
-  @media (max-width: 480px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-`;
-
-const SmallImage = styled.img`
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: contain;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: border 0.3s;
-  border-radius: 10px;
-  &.selected {
-    border: 2px solid #000;
-  }
-`;
-
-const Details = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const Title = styled.h2`
-  font-size: 20px;
-  margin-bottom: 5px;
-
-  @media (max-width: 480px) {
-    font-size: 18px;
-  }
-`;
-
-const Price = styled.p`
-  font-size: 18px;
-  font-weight: bold;
-
-  @media (max-width: 480px) {
-    font-size: 16px;
-  }
-`;
-
-const Description = styled.p`
-  margin-bottom: 10px;
-
-  @media (max-width: 480px) {
-    font-size: 14px;
-  }
-`;
-
-const Sizes = styled.div`
-  margin-bottom: 10px;
-
-  h4 {
-    margin-bottom: 10px;
-
-    @media (max-width: 480px) {
-      font-size: 16px;
-    }
-  }
-`;
-
-const SizeList = styled.ul`
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  gap: 5px;
-`;
-
-const SizeItem = styled.li`
-  cursor: pointer;
-  padding: 3px 5px;
-  border: 1px solid #000;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-
-  &.selected {
-    background-color: #000;
-    color: #fff;
-  }
-
-  @media (max-width: 480px) {
-    padding: 2px 4px;
-  }
-`;
-
-const Colors = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-
-const ColorLabel = styled.h4`
-  margin-right: 10px;
-
-  @media (max-width: 480px) {
-    font-size: 16px;
-  }
-`;
-
-const ColorOptions = styled.div`
-  display: flex;
-  gap: 5px;
-`;
-
-const ColorOption = styled.span`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 1px solid #000;
-  cursor: pointer;
-
-  @media (max-width: 480px) {
-    width: 12px;
-    height: 12px;
-  }
-`;
-
-const Features = styled.ul`
-  list-style-type: disc;
-  padding-left: 20px;
-  margin-bottom: 10px;
-
-  @media (max-width: 480px) {
-    font-size: 14px;
-  }
-`;

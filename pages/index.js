@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import Head from 'next/head';
-import { client } from '../sanity/lib/client';
-import HeroBanner from '../components/HeroBanner';
-import Product from '../components/Product';
-import QuickView from '../components/QuickView';
-import TextVideoSection from '../components/TextVideoSection';
-import { Advantages } from '@/components';
-import AboutUs from '../components/AboutUs';
-import Link from 'next/link';
-import TextVideoSection1 from '@/components/TextVideoSection1';
+import React, { useState } from "react";
+import Head from "next/head";
+import { client } from "../sanity/lib/client";
+import HeroBanner from "../components/HeroBanner";
+import Product from "../components/Product";
+import QuickView from "../components/QuickView";
+import TextVideoSection from "../components/TextVideoSection";
+import { Advantages } from "@/components";
+import AboutUs from "../components/AboutUs";
+import Link from "next/link";
+import TextVideoSection1 from "@/components/TextVideoSection1";
 
 export async function getStaticProps() {
   const bannerQuery = `*[_type == "banner"]`;
@@ -35,7 +35,12 @@ export async function getStaticProps() {
   };
 }
 
-const HomePage = ({ bannerData, products, textVideoSectionData, aboutUsData }) => {
+const HomePage = ({
+  bannerData,
+  products,
+  textVideoSectionData,
+  aboutUsData,
+}) => {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
 
   const handleQuickView = (product) => {
@@ -48,11 +53,15 @@ const HomePage = ({ bannerData, products, textVideoSectionData, aboutUsData }) =
 
   return (
     <div>
-
       <HeroBanner heroBanner={bannerData.length && bannerData[0]} />
       <div className="products-heading">
-        <h2>Derniers Produits</h2>
-        <p className='text-black'>Découvrez Notre Dernière Collection De Tableaux, Soigneusement Sélectionnée Pour Répondre à Vos Goûts Et Envies.</p>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-600">
+          Derniers Produits
+        </h2>
+        <p className="text-black">
+          Explorez notre collection high-tech : montres connectées, AirPods,
+          gadgets et plus encore !
+        </p>
       </div>
       <div className="browse-all-container">
         <Link href="/products">
@@ -62,14 +71,20 @@ const HomePage = ({ bannerData, products, textVideoSectionData, aboutUsData }) =
 
       <div className="products-container">
         {products?.slice(0, 4).map((product) => (
-          <Product key={product._id} product={product} onQuickView={handleQuickView} />
+          <Product
+            key={product._id}
+            product={product}
+            onQuickView={handleQuickView}
+          />
         ))}
       </div>
-      {quickViewProduct && <QuickView product={quickViewProduct} onClose={closeQuickView} />}
+      {quickViewProduct && (
+        <QuickView product={quickViewProduct} onClose={closeQuickView} />
+      )}
       <TextVideoSection sectionData={textVideoSectionData} />
 
-      {aboutUsData && <AboutUs {...aboutUsData} />}
-      <TextVideoSection1 sectionData={textVideoSectionData} />
+      {/* {aboutUsData && <AboutUs {...aboutUsData} />}
+      <TextVideoSection1 sectionData={textVideoSectionData} /> */}
       <Advantages />
 
       <style jsx>{`
@@ -82,17 +97,19 @@ const HomePage = ({ bannerData, products, textVideoSectionData, aboutUsData }) =
         .browse-all-button {
           padding: 10px 20px;
           font-size: 1rem;
-          color: #324d67;
+          color: #cb6ce6;
           background-color: transparent;
-          border: 2px solid #324d67;
+          border: 2px solid #cb6ce6;
           border-radius: 5px;
           cursor: pointer;
-          transition: background-color 0.3s, color 0.3s;
+          transition:
+            background-color 0.3s,
+            color 0.3s;
           margin-bottom: 1rem;
         }
 
         .browse-all-button:hover {
-          background-color: #324d67;
+          background-color: #cb6ce6;
           color: white;
         }
       `}</style>

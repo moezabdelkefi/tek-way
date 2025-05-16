@@ -93,7 +93,7 @@ const TextVideoSection1 = () => {
           font-size: 2rem;
           color: #333;
           margin-bottom: 15px;
-          color: #324d67;
+          color: #cb6ce6;
         }
 
         p {
@@ -106,9 +106,9 @@ const TextVideoSection1 = () => {
           margin-top: 20px;
           padding: 10px 20px;
           font-size: 1rem;
-          color: #324d67;
+          color: #cb6ce6;
           background-color: transparent;
-          border: 2px solid #324d67;
+          border: 2px solid #cb6ce6;
           border-radius: 5px;
           cursor: pointer;
           transition: background-color 0.3s, color 0.3s;
@@ -116,7 +116,7 @@ const TextVideoSection1 = () => {
         }
 
         button:hover {
-          background-color: #324d67;
+          background-color: #cb6ce6;
           color: #fff;
         }
 

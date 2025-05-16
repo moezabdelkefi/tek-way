@@ -45,7 +45,7 @@ const AboutUs = ({ title, description, description1, image }) => {
         .about-us h2 {
           margin: 0 0 10px;
           font-size: 3rem;
-          color: #324d67;
+          color: #cb6ce6;
         }
         .about-us .content p {
           font-size: 1.1rem;

@@ -47,7 +47,7 @@ const Footer = () => {
         .phone-number,
         .footer-copyright {
           font-size: 1rem;
-          color: #324d67;
+          color: #cb6ce6;
         }
 
         .icons a {
