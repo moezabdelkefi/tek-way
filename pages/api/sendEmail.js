@@ -20,10 +20,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { email, subject, message, price } = req.body;
+  const { subject, message, price } = req.body;
 
-  // Validate required fields
-  if (!email || !subject || !message || !price) {
+  // Validate required fields (email removed)
+  if (!subject || !message || !price) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
@@ -31,7 +31,6 @@ export default async function handler(req, res) {
     // Step 1: Save order to Firestore
     const newOrder = {
       Date: admin.firestore.FieldValue.serverTimestamp(),
-      Email: email,
       Subject: subject,
       Message: message,
       Price: price,
@@ -68,9 +67,9 @@ export default async function handler(req, res) {
 
     // Step 3: Format the message for the email
     const formattedMessage = message
-      .split("\n") // Split the message by newlines
-      .map((line) => `<p>${line}</p>`) // Wrap each line in a <p> tag
-      .join(""); // Join the lines back together
+      .split("\n")
+      .map((line) => `<p>${line}</p>`)
+      .join("");
 
     // Step 4: Send email
     const transporter = nodemailer.createTransport({
@@ -87,7 +86,6 @@ export default async function handler(req, res) {
       subject: `New Order: ${subject}`,
       html: `
         <h2>New Order Received</h2>
-        <p><strong>From:</strong> ${email}</p>
         <p><strong>Subject:</strong> ${subject}</p>
         ${formattedMessage}
         <p><strong>Price:</strong> ${price}</p>

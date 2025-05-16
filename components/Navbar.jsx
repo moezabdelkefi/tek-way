@@ -54,7 +54,10 @@ const Navbar = () => {
   };
 
   const handleClickOutside = (event) => {
-    if (searchFormRef.current && !searchFormRef.current.contains(event.target)) {
+    if (
+      searchFormRef.current &&
+      !searchFormRef.current.contains(event.target)
+    ) {
       setIsSearchVisible(false);
     }
   };
@@ -160,7 +163,7 @@ const Navbar = () => {
                   <path d="M16 10a4 4 0 0 1-8 0"></path>
                 </svg>
                 {totalQuantities > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-[#cb6ce6] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                     {totalQuantities}
                   </span>
                 )}

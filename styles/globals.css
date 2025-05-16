@@ -511,12 +511,12 @@ span.text-red {
 }
 .buttons .add-to-cart {
   padding: 10px 20px;
-  border: 1px solid #000000;
+  border: 1px solid #a855f7;
   margin-top: 12px;
   font-size: 18px;
   font-weight: 500;
   background-color: white;
-  color: #000000;
+  color: #db2777;
   cursor: pointer;
   width: 200px;
   transform: scale(1, 1);

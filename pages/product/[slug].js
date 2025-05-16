@@ -83,13 +83,6 @@ const ProductDetails = ({ product, products }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-6">
-        <Link
-          href={`/products?category=${category}`}
-          className="text-[#cb6ce6] font-bold hover:underline text-sm"
-        >
-          {category}
-        </Link>
-        <h1 className="text-3xl font-bold mt-1">{name}</h1>
         <div className="flex items-center mt-2">
           <div className="flex text-yellow-400">
             <AiFillStar />
@@ -99,24 +92,8 @@ const ProductDetails = ({ product, products }) => {
             <AiOutlineStar />
           </div>
         </div>
+        <h1 className="text-3xl font-bold mt-1">{name}</h1>
       </div>
-      <p className="price">
-        {discount ? (
-          <>
-            <span
-              className="original-price"
-              style={{ textDecoration: "line-through" }}
-            >
-              {price}DT
-            </span>
-            <span className="discounted-price">
-              /{Number(discountedPrice)}DT
-            </span>
-          </>
-        ) : (
-          `${price}DT`
-        )}
-      </p>
       {/* Top Section - Image and Form Side by Side */}
       <div className="flex flex-col lg:flex-row gap-8 mb-8">
         {/* Product Image */}
@@ -283,7 +260,9 @@ const ProductDetails = ({ product, products }) => {
                 type="submit"
                 disabled={isProcessing}
                 className={`w-full py-3 rounded-md text-white font-bold ${
-                  isProcessing ? "bg-gray-500" : "bg-black hover:bg-gray-800"
+                  isProcessing
+                    ? "bg-gray-500"
+                    : "bg-gradient-to-r from-purple-500 to-pink-600 hover:bg-gray-800"
                 } transition-colors`}
               >
                 {isProcessing ? "Traitement..." : "Commander -إتمام الشراء"}
@@ -313,6 +292,35 @@ const ProductDetails = ({ product, products }) => {
             )}
           </div>
         </div>
+        <div className="mb-6"></div>
+        <Link
+          href={`/products?category=${category}`}
+          className="text-[#cb6ce6] font-bold hover:underline text-sm px-4 py-2"
+          style={{
+            backgroundColor: "#f0f0f0",
+            borderRadius: "12px",
+            display: "inline-block",
+          }}
+        >
+          {category}
+        </Link>
+        <p className="price">
+          {discount ? (
+            <>
+              <span
+                className="original-price"
+                style={{ textDecoration: "line-through" }}
+              >
+                {price}DT
+              </span>
+              <span className="discounted-price">
+                /{Number(discountedPrice)}DT
+              </span>
+            </>
+          ) : (
+            `${price}DT`
+          )}
+        </p>
         <div className="buttons">
           <button
             type="button"
