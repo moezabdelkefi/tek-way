@@ -9,12 +9,12 @@ const Footer = () => {
       <hr className="footer-divider" />
       <div className="footer-content">
         <p className="phone-number">
-          Phone: +216 96 666 326 || +216 95 073 350
+          Phone: +216 93 340 250
         </p>
 
         <p className="icons">
           <a
-            href="https://www.facebook.com/profile.php?id=61567119636913"
+            href="https://www.facebook.com/profile.php?id=61576541215114"
             target="_blank"
             rel="noopener noreferrer"
           >
