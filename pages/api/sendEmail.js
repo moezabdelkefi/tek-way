@@ -66,7 +66,13 @@ export default async function handler(req, res) {
       type: "buffer",
     });
 
-    // Step 3: Send email
+    // Step 3: Format the message for the email
+    const formattedMessage = message
+      .split("\n") // Split the message by newlines
+      .map((line) => `<p>${line}</p>`) // Wrap each line in a <p> tag
+      .join(""); // Join the lines back together
+
+    // Step 4: Send email
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -83,7 +89,7 @@ export default async function handler(req, res) {
         <h2>New Order Received</h2>
         <p><strong>From:</strong> ${email}</p>
         <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong> ${message}</p>
+        ${formattedMessage}
         <p><strong>Price:</strong> ${price}</p>
         <p>See attached Excel file for all orders.</p>
       `,

@@ -4,7 +4,7 @@ import { StateContext } from '../context/StateContext';
 import { Urbanist } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { client } from '../lib/client';
+import { client } from '@/sanity/lib/client';
 
 const font = Urbanist({ subsets: ['latin'] });
 

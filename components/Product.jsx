@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { urlFor } from '@/lib/client';
+import { urlFor } from '@/sanity/lib/image';
 
 const Product = ({ product, onQuickView }) => {
   const { image, name, price, slug, discount } = product;

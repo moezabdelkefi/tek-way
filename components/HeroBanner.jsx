@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
-import { urlFor } from "../lib/client";
+import { urlFor } from "@/sanity/lib/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 

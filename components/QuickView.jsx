@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { urlFor } from "../lib/client";
+import { urlFor } from "@/sanity/lib/image";
 import styled from "styled-components";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useStateContext } from "@/context/StateContext";

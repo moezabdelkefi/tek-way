@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { client } from '../lib/client';
+import { client } from '@/sanity/lib/client';
 import { useRouter } from 'next/router';
 
 const TextVideoSection1 = () => {

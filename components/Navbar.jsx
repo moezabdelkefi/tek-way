@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Cart } from "./";
 import { useStateContext } from "../context/StateContext";
-import { client, urlFor } from "../lib/client";
+import { client, urlFor } from "@/sanity/lib/client";
 
 const Navbar = () => {
   const {
