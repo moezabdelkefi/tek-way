@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import TopBanner from "./TopBanner";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 const Layout = ({ children, topBannerData }) => {
   return (
@@ -27,6 +28,7 @@ const Layout = ({ children, topBannerData }) => {
         <Footer />
       </footer>
       <SpeedInsights />
+      <Analytics />
     </div>
   );
 };
