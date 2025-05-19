@@ -16,7 +16,7 @@
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.88.3",
     "@stripe/stripe-js": "^4.5.0",
-    "@vercel/speed-insights": "^1.0.12",
+    "@vercel/speed-insights": "^1.2.0",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.7",
     "canvas-confetti": "^1.9.3",
